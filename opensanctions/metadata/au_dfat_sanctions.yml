@@ -1,0 +1,69 @@
+entry_point: opensanctions.crawlers.au_dfat_sanctions
+title: "Australian Sanctions Consolidated List"
+prefix: au-dfat
+summary: |
+  The Consolidated List is a list of all persons and entities who are subject to
+  targeted financial sanctions under Australian sanctions law.
+description: |
+  The Consolidated List is a list of all persons and entities who are subject to
+  targeted financial sanctions under Australian sanctions law. Those listed may be
+  Australian citizens, foreign nationals, or residents in Australia or overseas.
+
+  Australia implements two types of sanctions:
+
+  * United Nations Security Council (UNSC) sanctions, which Australia must impose as
+    a member of the UN.
+  * Australian autonomous sanctions, which are imposed as a matter of Australian
+    foreign policy.
+
+  ASO maintains the list and updates it regularly.
+collections:
+  - sanctions
+  - default
+url: https://www.dfat.gov.au/international-relations/security/sanctions/Pages/sanctions
+publisher:
+  name: "Department of Foreign Affairs and Trade (DFAT)"
+  description: |
+    The Australian Sanctions Office (ASO) is the Australian Government’s sanctions
+    regulator. It sits within DFAT’s Legal Division in the International Security,
+    Humanitarian and Consular Group.
+  country: au
+  url: http://dfat.gov.au/
+  official: true
+data:
+  url: "https://www.dfat.gov.au/sites/default/files/regulation8_consolidated.xlsx"
+  format: XLSX
+
+lookups:
+  type:
+    normalize: true
+    lowercase: true
+
+    options:
+      - match:
+          - Individual
+          - Person
+          - Aka
+        value: Person
+      - match:
+          - Entity
+        value: LegalEntity
+
+  name_type:
+    normalize: true
+    lowercase: true
+    options:
+      - match:
+          - aka
+          - Original Script
+        value: alias
+      - match:
+          - Formerly known as
+          - Previously listed as
+        value: previousName
+      - match:
+          - Primary name
+          - Primay Name
+          - Primary
+          - null
+        value: name

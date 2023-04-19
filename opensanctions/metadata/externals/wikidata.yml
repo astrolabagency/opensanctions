@@ -1,0 +1,42 @@
+type: external
+title: Wikidata
+summary: |
+  Wikidata is the structured data project of the Wikipedia community,
+  providing fact-based information edited by humans and machines.
+description: |
+  Wikidata serves as the source of much of the OpenSanctions data related to
+  politically exposed persons (PEPs). We also link up entities that are 
+  sanctioned whenever a relevant Wikidata item is available.
+
+  The Wikidata importer will also traverse family and personal relationships
+  that are documented in the database and import relatives and close associates
+  whereever these are stated.
+
+  ### Limitations
+
+  There is no attempt to link companies and organizations from sanctions lists
+  to Wikidata, as the way that an encyclopedia describes such legal entities is
+  not granular enough for due diligence use cases.
+
+  We also remove any person born before 1900, or who has died before 2000 from
+  the dataset in order to avoid outdated profiles that could lead to false
+  positives.
+prefix: wd
+url: https://www.wikidata.org/wiki/Wikidata:Main_Page
+publisher:
+  name: Wikidata
+  description: |
+    Wikidata is a free and open knowledge base that can be read and edited by both humans
+    and machines. It acts as central storage for the structured data of its Wikimedia
+    sister projects including Wikipedia, Wikivoyage, Wiktionary, Wikisource, and others.
+  url: https://www.wikidata.org
+  official: false
+collections:
+  - default
+  - peps
+config:
+  type: nomenklatura.enrich.wikidata:WikidataEnricher
+  label_cache_days: 90
+  cache_days: 14
+  schemata:
+    - Person

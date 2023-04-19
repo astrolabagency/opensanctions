@@ -1,0 +1,43 @@
+entry_point: opensanctions.crawlers.ru_acf_bribetakers
+title: ACF List of bribetakers and warmongers
+prefix: acf
+summary: >
+  A list of key Russian decision-makers from government and business
+  composed by ACF/FBK, the anti-corruption investigative organization
+  founded by Alexei Navalny
+description: >
+  Putin and his accomplices (officials, oligarchs, propagandists), as well as
+  > yachts and mansions, which, we hope, they will soon be deprived of.
+collections:
+  - default
+publisher:
+  name: Anti-Corruption Foundation (ACF)
+  description: |
+    ACF is the international division of Фонд борьбы с коррупцией (FBK), the anti-corruption
+    investigative team founded by Alexei Navalny.
+  url: https://acf.international/
+  official: false
+  country: ru
+url: https://acf.international/bribetakers-list
+data:
+  url: https://sanctions.acf.international/api/villains/
+  format: JSON
+
+lookups:
+  descriptions:
+    normalize: true
+    options:
+      - contains:
+          - he remains involved in the system
+        value: null
+
+  tags:
+    lowercase: true
+    options:
+      - match:
+          - war-arrangers
+          - warmongers
+          - individuals-involved-in-corruption
+          - sellout-opinion-leaders
+          - Top-bribetakers-and-warmongers
+        value: null
