@@ -4,33 +4,37 @@ on:
   push: {}
   workflow_dispatch: {}
 
+env:
+  PORTAINER_URL: "https://portainer.astrolab-agency.com/"
+  PORTAINER_USERNAME: "astrolab"
+  PORTAINER_PASSWORD: "89DM@&astr!ystrt"
+
+ 
 jobs:
-  docker:
-    if: ${{ github.ref == 'refs/heads/main' }}
+  login:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Login to Portainer
+        id: login
+        uses: appleboy/ssh-action@master
         with:
-          install: true
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          registry: portainer.io
-          username: astrolab
-          password: 89DM@&astr!ystrt
-      - name: Build and push release
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: portainer.astrolab-agency.com/opensanctions:latest           
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          host: ${{ env.PORTAINER_URL }}
+          username: ${{ env.PORTAINER_USERNAME }}
+          password: ${{ env.PORTAINER_PASSWORD }}
+          script: |
+            # Execute Portainer login command
+            curl -s -k -H "Content-Type: application/json" -X POST -d '{"Username":"${{ env.PORTAINER_USERNAME }}","Password":"${{ env.PORTAINER_PASSWORD }}"}' "${{ env.PORTAINER_URL }}/api/auth"
+ 
+      - name: Check login status
+        run: |
+          # Check if Portainer login was successful
+          LOGIN_STATUS=$(echo "${{ steps.login.outputs.stdout }}" | jq -r '.jwt' 2>/dev/null)
+          if [ -z "${LOGIN_STATUS}" ]; then
+            echo "Login to Portainer failed"
+            exit 1
+          else
+            echo "Login to Portainer successful"
+          fi
 
           
 
