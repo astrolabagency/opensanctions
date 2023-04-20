@@ -7,9 +7,7 @@ env:
   PORTAINER_URL: "portainer.astrolab-agency.com"
   PORTAINER_REGISTRY_USERNAME: "astrolab"
   PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
- 
-environment:
-  - REGISTRY_HTTP_RELATIVEURLS=true
+  REGISTRY_HTTP_RELATIVEURLS: "true"
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
