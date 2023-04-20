@@ -7,24 +7,25 @@ env:
   PORTAINER_URL: "https://portainer.astrolab-agency.com"
   PORTAINER_REGISTRY_USERNAME: "astrolab"
   PORTAINER_REGISTRY_PASSWORD: "89DM@&astr!ystrt"
-
+ 
  
 jobs:
-   build-and-push:
+  build-and-push:
     runs-on: ubuntu-latest
-
+ 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
  
-    - name: Build and tag Docker image
-      run: |
-        docker build -t opensanctions:latest .
-        docker tag opensanctions:latest ${{ PORTAINER_URL }}/opensanctions:latest
+      - name: Build and tag Docker image
+        run: |
+          docker build -t opensanctions:latest .
+          docker tag opensanctions:latest ${{ PORTAINER_URL }}/opensanctions:latest
  
-    - name: Login to Portainer registry and push image
-      run: |
-        echo "${{PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
-        docker push  ${{ PORTAINER_URL }}/opensanctions:latest
+      - name: Login to Portainer registry and push image
+        run: |
+          echo "${{PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
+          docker push  ${{ PORTAINER_URL }}/opensanctions:latest
+          
   test:
     runs-on: ubuntu-latest
     services:
@@ -41,11 +42,11 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-
+ 
     env:
       OPENSANCTIONS_DATABASE_URI: "postgresql://opensanctions:opensanctions@localhost/opensanctions"
       OPENSANCTIONS_RESOLVER_PATH: /dev/null
-
+ 
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -82,3 +83,4 @@ jobs:
           password: ${{ secrets.pypi_password }}
           packages_dir: dist/
           skip_existing: true
+ 
