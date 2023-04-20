@@ -19,7 +19,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t opensanctions:latest .
- #         docker tag opensanctions:latest  portainer.astrolab-agency.com/opensanctions:latest
+#         docker tag opensanctions:latest  portainer.astrolab-agency.com/opensanctions:latest
       - name: Login to Portainer registry and push image
         run: |
 #          echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com  
