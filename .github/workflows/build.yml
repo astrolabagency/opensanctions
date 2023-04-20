@@ -9,7 +9,7 @@ env:
   PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
   REGISTRY_HTTP_RELATIVEURLS: "true"
 jobs:
-    build-and-push:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
