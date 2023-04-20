@@ -19,7 +19,7 @@ jobs:
         with:
           context: .
           push: true
-          tags:  portainer.astrolab-agency.com/opensanctions:latest:${{ github.sha }}
+          tags:  portainer.astrolab-agency.com/opensanctions:latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
