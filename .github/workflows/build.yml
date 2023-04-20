@@ -5,36 +5,28 @@ on:
   workflow_dispatch: {}
 
 env:
-  PORTAINER_URL: "https://portainer.astrolab-agency.com/"
-  PORTAINER_USERNAME: "astrolab"
-  PORTAINER_PASSWORD: "89DM@&astr!ystrt"
+  PORTAINER_URL: "https://portainer.astrolab-agency.com"
+  PORTAINER_REGISTRY_USERNAME: "astrolab"
+  PORTAINER_REGISTRY_PASSWORD: "89DM@&astr!ystrt"
 
  
 jobs:
-  login:
+   build-and-push:
     runs-on: ubuntu-latest
-    steps:
-      - name: Login to Portainer
-        id: login
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.PORTAINER_URL }}
-          username: ${{ env.PORTAINER_USERNAME }}
-          password: ${{ env.PORTAINER_PASSWORD }}
-          script: |
-            # Execute Portainer login command
-            curl -s -k -H "Content-Type: application/json" -X POST -d '{"Username":"${{ env.PORTAINER_USERNAME }}","Password":"${{ env.PORTAINER_PASSWORD }}"}' "${{ env.PORTAINER_URL }}/api/auth"
  
-      - name: Check login status
-        run: |
-          # Check if Portainer login was successful
-          LOGIN_STATUS=$(echo "${{ steps.login.outputs.stdout }}" | jq -r '.jwt' 2>/dev/null)
-          if [ -z "${LOGIN_STATUS}" ]; then
-            echo "Login to Portainer failed"
-            exit 1
-          else
-            echo "Login to Portainer successful"
-          fi
+    steps:
+    - uses: actions/checkout@v2
+ 
+    - name: Build and tag Docker image
+      run: |
+        docker build -t opensanctions:latest .
+        docker tag opensanctions:latest ${{ PORTAINER_URL }}/opensanctions:latest
+ 
+    - name: Login to Portainer registry and push image
+      run: |
+        echo "${{ secrets.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
+        docker push  ${{ PORTAINER_URL }}/opensanctions:latest
+ 
 
           
 
