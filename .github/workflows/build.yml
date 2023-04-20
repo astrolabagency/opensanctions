@@ -4,25 +4,31 @@ on:
     branches:
       - main
 env:
-  PORTAINER_URL: "portainer.astrolab-agency.com"
-  PORTAINER_REGISTRY_USERNAME: astrolab
+  PORTAINER_URL: "https://portainer.astrolab-agency.com"
+  PORTAINER_REGISTRY_USERNAME: ${{ secrets.USERNAME }}
   PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
   REGISTRY_HTTP_RELATIVEURLS: "true"
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
- 
     steps:
-      - uses: actions/checkout@v2
- 
-      - name: Build and tag Docker image
-        run: |
-          docker build -t opensanctions:latest .
-          docker tag opensanctions:latest  portainer.astrolab-agency.com/opensanctions:latest
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Login to Portainer registry and push image
-        run: docker push  portainer.astrolab-agency.com/opensanctions:latest
-          
+      - name: Login to Portainer registry
+        uses: docker/login-action@v1
+        with:
+          registry: https://portainer.astrolab-agency.com
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: portainer.astrolab-agency.com/opensanctions:latest
+
   test:
     runs-on: ubuntu-latest
     services:
