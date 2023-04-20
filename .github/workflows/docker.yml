@@ -25,7 +25,7 @@ jobs:
         with:
           registry: portainer.io
           username: astrolab
-          password: 89DM@&astr!ystrt
+          password:  ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
       - name: Build and push release
         uses: docker/build-push-action@v4
         with:
