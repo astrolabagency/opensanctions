@@ -19,7 +19,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t opensanctions:latest .
-          docker tag opensanctions:latest ${{ env.PORTAINER_URL }}/opensanctions:latest
+          docker tag opensanctions:latest "${{ env.PORTAINER_URL }}/opensanctions:latest"
  
       - name: Login to Portainer registry and push image
         run: |
