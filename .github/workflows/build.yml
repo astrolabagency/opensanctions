@@ -6,7 +6,7 @@ on:
 env:
   PORTAINER_URL: "https://portainer.astrolab-agency.com"
   PORTAINER_REGISTRY_USERNAME: "astrolab"
-  PORTAINER_REGISTRY_PASSWORD: "89DM@&astr!ystrt"
+  PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
  
  
 jobs:
@@ -19,12 +19,12 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t opensanctions:latest .
-          docker tag opensanctions:latest ${{ PORTAINER_URL }}/opensanctions:latest
+          docker tag opensanctions:latest ${{ env.PORTAINER_URL }}/opensanctions:latest
  
       - name: Login to Portainer registry and push image
         run: |
-          echo "${{PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
-          docker push  ${{ PORTAINER_URL }}/opensanctions:latest
+          echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ env.PORTAINER_URL }}
+          docker push  ${{ env.PORTAINER_URL }}/opensanctions:latest
           
   test:
     runs-on: ubuntu-latest
