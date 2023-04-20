@@ -17,7 +17,9 @@ jobs:
       - uses: actions/checkout@v2
  
       - name: Build and tag Docker image
-        run: docker build -t opensanctions:latest .
+        run: 
+        docker build -t opensanctions:latest .
+        docker tag opensanctions:latest  portainer.astrolab-agency.com/opensanctions:latest
 
       - name: Login to Portainer registry and push image
         run: docker push  portainer.astrolab-agency.com/opensanctions:latest
