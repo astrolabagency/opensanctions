@@ -24,7 +24,7 @@ jobs:
  
     - name: Login to Portainer registry and push image
       run: |
-        echo "${{ secrets.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
+        echo "${{PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
         docker push  ${{ PORTAINER_URL }}/opensanctions:latest
  
 
