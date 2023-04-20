@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  PORTAINER_URL: "https://portainer.astrolab-agency.com"
+  PORTAINER_URL: "portainer.astrolab-agency.com"
   PORTAINER_REGISTRY_USERNAME: ${{ secrets.USERNAME }}
   PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
   REGISTRY_HTTP_RELATIVEURLS: "true"
@@ -18,7 +18,7 @@ jobs:
       - name: Login to Portainer registry
         uses: docker/login-action@v1
         with:
-          registry: https://portainer.astrolab-agency.com
+          registry: "portainer.astrolab-agency.com"
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
 
