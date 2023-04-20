@@ -9,7 +9,7 @@ env:
   PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
   REGISTRY_HTTP_RELATIVEURLS: "true"
 jobs:
- build-and-push:
+    build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,6 +20,13 @@ jobs:
           context: .
           push: true
           tags:  portainer.astrolab-agency.com/opensanctions:latest:${{ github.sha }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: portainer.astrolab-agency.com/opensanctions:latest
 
   test:
     runs-on: ubuntu-latest
