@@ -1,7 +1,7 @@
 FROM ubuntu:23.04
 LABEL org.opencontainers.image.title "OpenSanctions ETL"
 LABEL org.opencontainers.image.licenses MIT
-LABEL org.opencontainers.image.source https://github.com/opensanctions/opensanctions
+LABEL org.opencontainers.image.source https://github.com/astrolabagency/opensanctions
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -qq -y update \
