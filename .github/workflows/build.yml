@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  PORTAINER_URL: "https://portainer.astrolab-agency.com"
+  PORTAINER_URL: "portainer.astrolab-agency.com"
   PORTAINER_REGISTRY_USERNAME: "astrolab"
   PORTAINER_REGISTRY_PASSWORD: ${{ secrets.PORTAINER_REGISTRY_PASSWORD }}
  
@@ -23,7 +23,8 @@ jobs:
  
       - name: Login to Portainer registry and push image
         run: |
-          echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com
+# echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com
+         
           docker push  portainer.astrolab-agency.com/opensanctions:latest
           
   test:
