@@ -12,7 +12,7 @@ env:
 jobs:
    build-and-push:
     runs-on: ubuntu-latest
- 
+    
     steps:
     - uses: actions/checkout@v2
  
@@ -25,7 +25,6 @@ jobs:
       run: |
         echo "${{PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin ${{ PORTAINER_URL }}
         docker push  ${{ PORTAINER_URL }}/opensanctions:latest
- 
 
   test:
     runs-on: ubuntu-latest
