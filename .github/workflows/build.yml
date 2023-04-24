@@ -12,14 +12,25 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build Docker image
-        uses: docker/build-push-action@v2
+      - uses: actions/checkout@v2
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
         with:
-          context: .
-          push: true
-          tags:  portainer.astrolab-agency.com/opensanctions:latest
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GHCR_TOKEN}}
+          #tags:  portainer.astrolab-agency.com/opensanctions:latest
+      - name : Build docker image 
+         run : |
+          docker build . --tag ghcr.io/astrolabagency/opensanctions:latest 
+          docker run ghcr.io/astrolabagency/opensanctions:latest 
+          docker push ghcr.io/astrolabagency/opensanctions:latest 
+      - name : login &pull images into portainer 
+         run: |
+         echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com  
+         docker  pull <ghcr.io/astrolabagency/opensanctions:latest>
+         docker push  portainer.astrolab-agency.com/opensanctions:latest
+
 
   test:
     runs-on: ubuntu-latest
