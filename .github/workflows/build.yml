@@ -30,11 +30,45 @@ jobs:
       - name: down  docker image 
         run: |
           docker-compose down 
-      - name: login &pull images into portainer 
-        run: |
-         echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com  
-         docker  pull <ghcr.io/astrolabagency/opensanctions:latest>
+ #     - name: login &pull images into portainer 
+  #      run: |
+   #      echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com  
+    #     docker  pull <ghcr.io/astrolabagency/opensanctions:latest>
   #       docker push  portainer.astrolab-agency.com/opensanctions:latest
+
+      - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+    # Required, playbook filepath
+      playbook: deployment_dev.yml
+    # Optional, directory where playbooks live
+      directory: ./deployment
+    # Optional, SSH private key
+      key: ${{secrets.SSH_PRIVATE_KEY}}
+    # Optional, literal inventory file contents
+      inventory: |
+        [dev]
+        188.165.210.189 ansible_ssh_user=root ansible_python_interpreter=/usr/bin/python2.7
+
+        [dev:vars]
+        c_name={{ lookup('env','CI_PROJECT_NAME') }}-dev
+        h_name={{ lookup('env','CI_PROJECT_NAME') }}-dev
+        net_id=173.20.0
+        host_id=3      
+        container_port=3000
+        branch_name=dev
+        runner_name=opensource
+        network_name=dgauction-dev
+        registry_url={{ lookup('env','GHCR_REGISTRY') }}                          
+        registry_user={{ lookup('env','GITHUB_REGISTRY_USER') }}     
+        registry_password={{ lookup('env','GITHUB_REGISTRY_PASS') }}  
+        image_name={{ lookup('env','CI_REGISTRY_IMAGE') }}:{{ lookup('env','CI_COMMIT_SHORT_SHA') }}-dev
+
+        [dgauction-dev_network:children]
+        dev
+
+        [dgauction-dev_clean:children]
+        dev
 
 
   test:
