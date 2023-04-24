@@ -24,14 +24,20 @@ jobs:
       - name: Build docker image 
         run: |
           docker-compose build 
+      - name: run docker image 
+        run: |
           docker-compose up 
+      - name: push docker image 
+        run: |
           docker push ghcr.io/astrolabagency/opensanctions:latest 
+       - name: down  docker image 
+        run: |
           docker-compose down 
       - name: login &pull images into portainer 
         run: |
          echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com  
          docker  pull <ghcr.io/astrolabagency/opensanctions:latest>
-         docker push  portainer.astrolab-agency.com/opensanctions:latest
+  #       docker push  portainer.astrolab-agency.com/opensanctions:latest
 
 
   test:
