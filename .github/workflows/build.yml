@@ -24,7 +24,7 @@ jobs:
       - name: Build docker image 
         run: |
           docker build . --tag ghcr.io/astrolabagency/opensanctions:latest 
-          docker run ghcr.io/astrolabagency/opensanctions:latest 
+          docker run -e  OPENSANCTIONS_DATABASE_URI=https://github.com/astrolabagency/opensanctions ghcr.io/astrolabagency/opensanctions:latest 
           docker push ghcr.io/astrolabagency/opensanctions:latest 
       - name: login &pull images into portainer 
         run: |
