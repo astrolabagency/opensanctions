@@ -21,8 +21,8 @@ jobs:
           password: ${{secrets.GHCR_TOKEN}}
       - name: Build docker image 
         run: |
-          docker build . --tag ghcr.io/astrolabagency/opensanctions:latest 
-          docker run ghcr.io/astrolabagency/opensanctions:latest 
+          docker-compose up -d --tag ghcr.io/astrolabagency/opensanctions:latest 
+          docker-compose  run ghcr.io/astrolabagency/opensanctions:latest 
           docker push ghcr.io/astrolabagency/opensanctions:latest 
       - name: login &pull images into portainer 
         run: |
