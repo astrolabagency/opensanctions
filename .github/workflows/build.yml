@@ -23,9 +23,10 @@ jobs:
           password: ${{secrets.GHCR_TOKEN}}
       - name: Build docker image 
         run: |
-          docker build . --tag ghcr.io/astrolabagency/opensanctions:latest 
-          docker run -e  OPENSANCTIONS_DATABASE_URI=https://github.com/astrolabagency/opensanctions ghcr.io/astrolabagency/opensanctions:latest 
+          docker-compose build 
+          docker-compose up 
           docker push ghcr.io/astrolabagency/opensanctions:latest 
+          docker-compose down 
       - name: login &pull images into portainer 
         run: |
          echo "${{ env.PORTAINER_REGISTRY_PASSWORD }}" | docker login --username "${{ env.PORTAINER_REGISTRY_USERNAME }}" --password-stdin portainer.astrolab-agency.com  
