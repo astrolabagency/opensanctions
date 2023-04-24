@@ -49,6 +49,7 @@ services:
     hostname: work
     environment:
       OPENSANCTIONS_DATABASE_URI: postgresql://os:os@db/opensanctions
+      OPENSANCTIONS_RESOLVER_PATH: /dev/null
     volumes:
       - "./data:/opensanctions/data"
       - "./opensanctions:/opensanctions/opensanctions"
