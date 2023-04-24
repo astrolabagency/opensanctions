@@ -30,7 +30,7 @@ jobs:
       - name: push docker image 
         run: |
           docker push ghcr.io/astrolabagency/opensanctions:latest 
-       - name: down  docker image 
+      - name: down  docker image 
         run: |
           docker-compose down 
       - name: login &pull images into portainer 
