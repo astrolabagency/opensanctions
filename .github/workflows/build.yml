@@ -24,9 +24,6 @@ jobs:
       - name: Build docker image 
         run: |
           docker-compose build 
-      - name: run docker image 
-        run: |
-          docker-compose up 
       - name: push docker image 
         run: |
           docker push ghcr.io/astrolabagency/opensanctions:latest 
