@@ -1,22 +1,20 @@
-[dev]
-188.165.210.189 ansible_ssh_user=root ansible_python_interpreter=/usr/bin/python2.7
+  [main]
+        188.165.210.189 ansible_ssh_user=root ansible_python_interpreter=/usr/bin/python2.7
 
-[dev:vars]
-c_name={{ lookup('env','CI_PROJECT_NAME') }}-dev
-h_name={{ lookup('env','CI_PROJECT_NAME') }}-dev
-net_id=173.20.0
-host_id=3      
-container_port=3000
-branch_name=dev
-runner_name=opensource
-network_name=dgauction-dev
-registry_url={{ lookup('env','CI_REGISTRY') }}                          
-registry_user={{ lookup('env','GITLAB_REGISTRY_USER') }}     
-registry_password={{ lookup('env','GITLAB_REGISTRY_PASS') }}  
-image_name={{ lookup('env','CI_REGISTRY_IMAGE') }}:{{ lookup('env','CI_COMMIT_SHORT_SHA') }}-dev
+        [main:vars]
+        
+        net_id=173.21.0
+        host_id=3     
+        container_port=3000
+        branch_name=main
+        network_name=opensanction
+        registry_url={{ lookup('env','GHCR_REGISTRY') }}                          
+        registry_user={{ lookup('env','github.actor') }}     
+        registry_password={{ lookup('env','secrets.GHCR_TOKEN') }}  
+        image_name={{ lookup('env','CI_REGISTRY_IMAGE') }}:{{ lookup('env','GITHUB_SHA') }}-dev
 
-[dgauction-dev_network:children]
-dev
+        [dgauction-main_network:children]
+        main
 
-[dgauction-dev_clean:children]
-dev
+        [dgauction-main_clean:children]
+        main
